@@ -1,25 +1,47 @@
 from datetime import datetime
+import random
 
 
 def auth():
     authenticated = False
-    name = input('what is your name?\n')
 
-    allowed_users = ['Dennis', 'Kamau', 'Mwaura']
+    account_nums = [125241425, 482815472, 979581414]
     allowed_password = ['passwordDennis', 'passwordKamau', 'passwordMwaura']
 
-    if name in allowed_users:
-        password = input('Enter your password\n')
-        user_id = allowed_users.index(name)
+    login_regester = int(input("Press 1 to Login\nPress 2 to Register"))
 
-        if password == allowed_password[user_id]:
-            authenticated = True
-            print(f'Welcome {name}')
-            print(f'Login Successful at {datetime.now()}')
+    if login_regester == 1:
+        account = int(input('Enter your Account Number\n'))
+
+        if account in account_nums:
+            password = input('Enter your password\n')
+            user_id = account_nums.index(account)
+
+            if password == allowed_password[user_id]:
+                authenticated = True
+                print(f'Welcome {account}')
+                print(f'Login Successful at {datetime.now()}')
+            else:
+                print('Password Incorrect, Please try again\n')
         else:
-            print('Password Incorrect, Please try again\n')
+            print('User not found, Please try again\n')
+
+    elif login_regester == 2:
+
+        # Generate account number
+        account_num = random.randint(111111111, 999999999)
+
+        print(f"Welcome, your account number is {account_num}\n")
+
+        preffered_password = input('Please set a password\n')
+
+        account_nums.append(account_num)
+        allowed_password.append(preffered_password)
+
+        authenticated = True
+
     else:
-        print('Name not found, Please try again\n')
+        print('Invalid input')
 
     return authenticated
 
@@ -49,29 +71,31 @@ def handle_complaint():
 
 def init():
     print("Welcome to ZuriATM\n")
-    login_regester = input(print("Enter 1 to Login\n2 to register"))
+    user_authenticated = False
 
+    while True:
+        if user_authenticated:
+            print('These are the available options:')
+            print('1. Withdrawal')
+            print('2. Cash Deposit')
+            print('3. Complaint')
+            print('4. Log Out')
 
-    while auth():
-        print('These are the available options:')
-        print('1. Withdrawal')
-        print('2. Cash Deposit')
-        print('3. Complaint')
-        print('4. Log Out')
+            selected_option = int(input('Please select an option: '))
 
-        selected_option = int(input('Please select an option: '))
-
-        if selected_option == 1:
-            withdraw()
-        elif selected_option == 2:
-            deposit()
-        elif selected_option == 3:
-            handle_complaint()
-        elif selected_option == 4:
-            print('Log out Successful')
-            break
+            if selected_option == 1:
+                withdraw()
+            elif selected_option == 2:
+                deposit()
+            elif selected_option == 3:
+                handle_complaint()
+            elif selected_option == 4:
+                print('Log out Successful')
+                break
+            else:
+                print('Invalid option selected, Please try again\n')
         else:
-            print('Invalid option selected, Please try again\n')
+            user_authenticated = auth()
 
 
 init()
